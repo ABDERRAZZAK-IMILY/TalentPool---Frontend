@@ -13,7 +13,7 @@ export default function Login() {
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
                         <input type="password" id="password" className="mt-1 block w-full p-2 border border-gray-300 rounded" required />
                     </div>
-                    <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Login</button>
+                    <button type="submit" className="w-full bg-blue-500  py-2 rounded hover:bg-blue-600">Login</button>
                 </form>
             </div>
         </div>
