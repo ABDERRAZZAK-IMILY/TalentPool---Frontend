@@ -3,10 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../api/axios.js";
 
 
-
-
-
-
 export default function Login() {
 
     const navigate = useNavigate();
