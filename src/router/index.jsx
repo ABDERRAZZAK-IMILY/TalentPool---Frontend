@@ -1,12 +1,21 @@
 import { createBrowserRouter } from 'react-router-dom';
+import HOME from '../pages/Home.jsx';
+import Login from '../pages/Login.jsx';
+import Register from '../pages/Register.jsx';
+
 
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <h1>TALENTPOOL FRONT END</h1>
+        element: <HOME />
     },
     {
         path: "/login",
-        element: <h1>LOGIN</h1>
+        element: <Login />
+    },
+    {
+   path: "/register",
+   element : <Register />
+
     }
 ]);
