@@ -1,10 +1,11 @@
 import React from 'react';
-import './App.css'; // Import Tailwind CSS styles
+import './App.css';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router/index.jsx';
+
 function App() {
   return (
-      <header className="bg-red-500 text-white p-6">
-        <h1 className="text-3xl font-bold">MY frist app in react</h1>
-      </header>
+    <RouterProvider router={router} />
   );
 }
 
