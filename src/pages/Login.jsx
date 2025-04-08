@@ -73,11 +73,11 @@ export default function Login() {
                 <form onSubmit={handleSubmit} >
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                        <input   value={formData.email}  type="email" id="email" className="mt-1 block w-full p-2 border border-gray-300 rounded" required />
+                        <input    onChange={handleChange}  value={formData.email}  type="email" id="email" className="mt-1 block w-full p-2 border border-gray-300 rounded" required />
                     </div>
                     <div className="mb-6">
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                        <input      value={formData.password}  type="password" id="password" className="mt-1 block w-full p-2 border border-gray-300 rounded" required />
+                        <input    onChange={handleChange}   value={formData.password}  type="password" id="password" className="mt-1 block w-full p-2 border border-gray-300 rounded" required />
                     </div>
                     <button type="submit" className="w-full bg-blue-500  py-2 rounded hover:bg-blue-600">Login</button>
                 </form>
