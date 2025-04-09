@@ -13,6 +13,14 @@ export default function CreateAnnonce() {
     
     });
 
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+    
+
     const [errors, setErrors] = useState({});
 
     const validateForm = () => {
@@ -20,25 +28,39 @@ export default function CreateAnnonce() {
         
         if (!formData.title.trim()) newErrors.title = 'Le titre est requis';
         if (!formData.description.trim()) newErrors.description = 'La description est requise';
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
         
-        // Clear error when field is edited
-        if (errors[name]) {
-            setErrors({
-                ...errors,
-                [name]: ''
-            });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0; // Returns true if no errors
+    };
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        if (!validateForm()) return;
+        
+        setLoading(true);
+        setError(null);
+        
+        try {
+            const response = await axiosClient.post('http://localhost/api/annonces', formData , {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
+                }
+            }
+            );
+            
+            if (response.data) {
+
+                navigate('/reciter/annonces');
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || 'Erreur lors de la création de l\'annonce. Veuillez réessayer.');
+            console.error(err);
+        } finally {
+            setLoading(false);
         }
     };
-
-  
 
     return (
         <div className="max-w-4xl mx-auto">
@@ -67,6 +89,9 @@ export default function CreateAnnonce() {
                         />
                         {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
                     </div>
+                    
+                  
+                    
                     {/* Description */}
                     <div className="col-span-2">
                         <label htmlFor="description" className="block text-gray-700 font-medium mb-2">Description du poste*</label>
@@ -81,7 +106,8 @@ export default function CreateAnnonce() {
                         ></textarea>
                         {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
                     </div>
-                    </div>
+               
+                </div>
                 
                 <div className="mt-8 flex justify-end space-x-4">
                     <button

@@ -2,8 +2,13 @@ import { useState, useEffect } from 'react';
 import { axiosClient } from '../../api/axios.js';
 
 export default function DashboardRecuiter() {
-   
-   
+    const [stats, setStats] = useState({
+        totalAnnonces: 0,
+        activeAnnonces: 0,
+        totalCandidatures: 0,
+        recentCandidatures: []
+    });
+    
 
     return (
         <div className="space-y-6">
