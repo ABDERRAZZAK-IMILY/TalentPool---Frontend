@@ -47,7 +47,21 @@ element : <FetchDataComponent />
  {
 
 
- 
+  element : <Recuiter />,
+  
+  children : [
+
+
+    
+    {
+        path: "/reciter/dashboard",
+        element: <DashboardRecuiter/>
+    },
+    {
+      path: "/reciter/create-annonce",
+      element: <CreateAnnonce/>
+    }
+  ]
  }
 
 
