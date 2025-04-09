@@ -54,12 +54,13 @@ export default function Login() {
             const { token } = response.data;
             const decodedToken = jwtDecode(token);
             console.log(response.data);
-            const userId = decodedToken.userId;
+            const userId = decodedToken.sub; 
             const userRole = decodedToken.role;
             localStorage.setItem('userId', userId);
             localStorage.setItem('userRole', userRole);
             localStorage.setItem('jwtToken', token);
             console.log(response.data);
+            console.log("User ID:", userId);
 
             navigate("/test");
         } catch (error) {

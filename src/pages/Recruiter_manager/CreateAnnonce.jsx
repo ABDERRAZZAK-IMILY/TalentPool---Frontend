@@ -9,10 +9,13 @@ export default function CreateAnnonce() {
     
     const [formData, setFormData] = useState({
         recruteur_id: localStorage.getItem('userId'),
-        title: '',
+        titre: '',
         description: '',
     
     });
+
+    console.log("Recruteur ID:", formData.recruteur_id);
+
 
     const handleChange = (e) => {
         setFormData({
@@ -27,7 +30,7 @@ export default function CreateAnnonce() {
     const validateForm = () => {
         const newErrors = {};
         
-        if (!formData.title.trim()) newErrors.title = 'Le titre est requis';
+        if (!formData.titre.trim()) newErrors.titre = 'Le titre est requis';
         if (!formData.description.trim()) newErrors.description = 'La description est requise';
         
         setErrors(newErrors);
@@ -53,7 +56,7 @@ export default function CreateAnnonce() {
             
             if (response.data) {
 
-                navigate('/reciter/annonces');
+                alert('Annonce créée avec succès!');
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Erreur lors de la création de l\'annonce. Veuillez réessayer.');
@@ -78,17 +81,17 @@ export default function CreateAnnonce() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Title */}
                     <div className="col-span-2">
-                        <label htmlFor="title" className="block text-gray-700 font-medium mb-2">Titre de l'annonce*</label>
+                        <label htmlFor="titre" className="block text-gray-700 font-medium mb-2">Titre de l'annonce*</label>
                         <input
                             type="text"
-                            id="title"
-                            name="title"
+                            id="titre"
+                            name="titre"
                             value={formData.title}
                             onChange={handleChange}
                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
                             placeholder="Ex: Développeur Frontend React"
                         />
-                        {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+                        {errors.title && <p className="text-red-500 text-sm mt-1">{errors.titre}</p>}
                     </div>
                     
                   
