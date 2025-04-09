@@ -8,6 +8,7 @@ export default function CreateAnnonce() {
     const [error, setError] = useState(null);
     
     const [formData, setFormData] = useState({
+        recruteur_id: localStorage.getItem('userId'),
         title: '',
         description: '',
     

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../api/axios.js";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -51,8 +52,14 @@ export default function Login() {
         try {
             const response = await axiosClient.post('/login', formData);
             const { token } = response.data;
-
+            const decodedToken = jwtDecode(token);
+            console.log(response.data);
+            const userId = decodedToken.userId;
+            const userRole = decodedToken.role;
+            localStorage.setItem('userId', userId);
+            localStorage.setItem('userRole', userRole);
             localStorage.setItem('jwtToken', token);
+            console.log(response.data);
 
             navigate("/test");
         } catch (error) {
