@@ -4,10 +4,12 @@ import Login from '../pages/Login.jsx';
 import Register from '../pages/Register.jsx';
 import Layout from '../layouts/Layout.jsx';
 import Recuiter from '../layouts/RecruiterLayouts.jsx';
-import FetchDataComponent from '../pages/datafetch.jsx';
 import DashboardRecuiter from '../pages/Recruiter_manager/DashboardRecuiter.jsx';
 import CreateAnnonce  from '../pages/Recruiter_manager/CreateAnnonce.jsx';
+import MesAnnonces from '../pages/Recruiter_manager/Annonces.jsx';
+import CandidatLayout from '../layouts/CandidatLayout.jsx';
 
+import DeleteAnnonce from '../pages/Recruiter_manager/DeleteAnnonce.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -32,15 +34,6 @@ export const router = createBrowserRouter([
     }
    ]
   }
-,
- {
-
-path : "/test" ,
-
-element : <FetchDataComponent />
-
-
- }
 
 ,
 
@@ -60,9 +53,39 @@ element : <FetchDataComponent />
     {
       path: "/reciter/create-annonce",
       element: <CreateAnnonce/>
+    } ,
+
+    {
+     
+      path: "/reciter/annonces",
+      element: <MesAnnonces/>
+
+
+    },
+    {
+      path: "/reciter/annonces/:id/delete",
+      element: <DeleteAnnonce/>
     }
   ]
  }
+,
+
+{
+
+element : <CandidatLayout />,
+
+children :  [
+
+ 
+
+
+]
+
+
+
+
+}
+
 
 
 

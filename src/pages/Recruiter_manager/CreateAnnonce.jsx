@@ -34,7 +34,7 @@ export default function CreateAnnonce() {
         if (!formData.description.trim()) newErrors.description = 'La description est requise';
         
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0; // Returns true if no errors
+        return Object.keys(newErrors).length === 0; 
     };
     
     const handleSubmit = async (e) => {
@@ -124,7 +124,7 @@ export default function CreateAnnonce() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-6 py-2 bg-blue-600  rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading ? 'Création en cours...' : 'Créer l\'annonce'}
                     </button>

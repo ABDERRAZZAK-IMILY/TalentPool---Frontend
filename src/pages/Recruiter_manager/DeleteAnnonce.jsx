@@ -15,11 +15,6 @@ export default function DeleteAnnonce() {
         const fetchAnnonceData = async () => {
             try {
                 setFetchLoading(true);
-                // In a real application, this would fetch data from the backend
-                // const response = await axiosClient.get(`/recruiter/annonces/${id}`);
-                // setAnnonce(response.data);
-                
-                // Simulate API call with mock data
                 setTimeout(() => {
                     setAnnonce({
                         id: id,
@@ -46,13 +41,9 @@ export default function DeleteAnnonce() {
         setError(null);
         
         try {
-            // In a real application, this would delete data in the backend
-            // await axiosClient.delete(`/recruiter/annonces/${id}`);
             
-            // Simulate API call
             await new Promise(resolve => setTimeout(resolve, 1000));
             
-            // Redirect to annonces list after successful deletion
             navigate('/reciter/annonces');
         } catch (err) {
             setError('Erreur lors de la suppression de l\'annonce. Veuillez réessayer.');

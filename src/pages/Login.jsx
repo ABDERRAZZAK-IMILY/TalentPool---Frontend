@@ -61,8 +61,18 @@ export default function Login() {
             localStorage.setItem('jwtToken', token);
             console.log(response.data);
             console.log("User ID:", userId);
+            console.log("User Role:", userRole);
 
-            navigate("/test");
+         if (userRole == "candidat"){
+            navigate("hello candidat");
+
+         }else if (userRole == "recruteur"){ 
+            alert("hello recruteur");
+        
+        }else if (userRole == "admin"){
+   alert("hello admin");
+         };
+
         } catch (error) {
             console.error(error);
             setErrors({ ...errors, server: 'Login failed. Please try again.' });
