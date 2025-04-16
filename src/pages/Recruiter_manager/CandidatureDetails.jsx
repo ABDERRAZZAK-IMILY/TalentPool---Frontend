@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { axiosClient } from '../../api/axios.js';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CandidatureDetails() {
     const { candidatureId } = useParams();
@@ -8,44 +10,15 @@ export default function CandidatureDetails() {
     const [candidature, setCandidature] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [withdrawing, setWithdrawing] = useState(false);
+    const [processingAction, setProcessingAction] = useState(false);
 
     useEffect(() => {
         fetchCandidatureDetails();
-    }, []);
-
-    const handleWithdraw = async () => {
-        if (!window.confirm('Êtes-vous sûr de vouloir retirer cette candidature?')) return;
-        
-        setWithdrawing(true);
-        try {
-            await axiosClient.delete(`/candidatures/${candidatureId}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
-                }
-            });
-            navigate('/candidat/mes-candidatures');
-        } catch (err) {
-            setError('Erreur lors du retrait de la candidature.');
-            console.error(err);
-        } finally {
-            setWithdrawing(false);
-        }
-    };
-
-    // Helper function to ensure URLs are properly formatted
-    const formatUrl = (url) => {
-        if (!url) return '#';
-        if (url.startsWith('http://') || url.startsWith('https://')) {
-            return url;
-        }
-        // Remove leading slash if present to avoid double slashes
-        const cleanUrl = url.startsWith('/') ? url.substring(1) : url;
-        return `http://localhost:80/${cleanUrl}`;
-    };
+    }, [candidatureId]);
 
     const fetchCandidatureDetails = async () => {
         try {
+            setLoading(true);
             const response = await axiosClient.get(`/candidatures/${candidatureId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
@@ -53,18 +26,59 @@ export default function CandidatureDetails() {
             });
             setCandidature(response.data);
         } catch (err) {
+            console.error('Error fetching candidature details:', err);
             setError('Erreur lors du chargement des détails de la candidature.');
-            console.error(err);
+            console.log(candidatureId);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleAccept = async () => {
+        if (!window.confirm('Êtes-vous sûr de vouloir accepter cette candidature?')) return;
+        
+        try {
+            setProcessingAction(true);
+            await axiosClient.post(`/candidatures/${candidatureId}/accept`, {}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
+                }
+            });
+            toast.success('Candidature acceptée avec succès!');
+            fetchCandidatureDetails();
+        } catch (err) {
+            console.error('Error accepting candidature:', err);
+            toast.error('Erreur lors de l\'acceptation de la candidature.');
+        } finally {
+            setProcessingAction(false);
+        }
+    };
+
+    const handleRefuse = async () => {
+        if (!window.confirm('Êtes-vous sûr de vouloir refuser cette candidature?')) return;
+        
+        try {
+            setProcessingAction(true);
+            await axiosClient.post(`/candidatures/${candidatureId}/refuse`, {}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
+                }
+            });
+            toast.success('Candidature refusée avec succès!');
+            fetchCandidatureDetails();
+        } catch (err) {
+            console.error('Error refusing candidature:', err);
+            toast.error('Erreur lors du refus de la candidature.');
+        } finally {
+            setProcessingAction(false);
         }
     };
 
     const getStatusBadge = (status) => {
         const statusConfig = {
             en_attente: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'En attente' },
-            acceptee: { bg: 'bg-green-100', text: 'text-green-800', label: 'Acceptée' },
-            refusee: { bg: 'bg-red-100', text: 'text-red-800', label: 'Refusée' }
+            acceptée: { bg: 'bg-green-100', text: 'text-green-800', label: 'Acceptée' },
+            refusée: { bg: 'bg-red-100', text: 'text-red-800', label: 'Refusée' }
         };
 
         const config = statusConfig[status] || { bg: 'bg-gray-100', text: 'text-gray-800', label: status };
@@ -93,16 +107,26 @@ export default function CandidatureDetails() {
 
     return (
         <div className="max-w-4xl mx-auto p-6">
+            <ToastContainer position="top-right" autoClose={5000} />
             <h1 className="text-2xl font-bold text-gray-800 mb-6">Détails de la Candidature</h1>
 
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
                 <div className="p-6 space-y-6">
+                    {/* Informations sur le candidat */}
+                    <div>
+                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Informations du candidat</h2>
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                            <h3 className="text-lg font-medium text-gray-900">{candidature.user?.name || 'IMILY ABDERRAZZAK'}</h3>
+                            <p className="text-gray-600 mt-2">{candidature.user?.email || 'IMILY@gmail.com'}</p>
+                        </div>
+                    </div>
+
                     {/* Informations sur l'offre */}
                     <div>
                         <h2 className="text-xl font-semibold text-gray-800 mb-4">Offre d'emploi</h2>
                         <div className="bg-gray-50 p-4 rounded-lg">
-                            <h3 className="text-lg font-medium text-gray-900">{candidature.annonce.titre}</h3>
-                            <p className="text-gray-600 mt-2">{candidature.annonce.description}</p>
+                            <h3 className="text-lg font-medium text-gray-900">{candidature.annonce?.titre || 'FULL STACK DEVELOPPEUR'}</h3>
+                            <p className="text-gray-600 mt-2">{candidature.annonce?.description || 'LARAVEL , PHP , REACT'}</p>
                         </div>
                     </div>
 
@@ -111,7 +135,7 @@ export default function CandidatureDetails() {
                         <h2 className="text-xl font-semibold text-gray-800 mb-4">Statut de la candidature</h2>
                         <div className="flex items-center space-x-4">
                             <span className="text-gray-600">État actuel:</span>
-                            {getStatusBadge(candidature.status)}
+                            {getStatusBadge(candidature.statut)}
                         </div>
                         <p className="text-gray-600 mt-2">
                             Candidature soumise le {new Date(candidature.created_at).toLocaleDateString()}
@@ -130,7 +154,7 @@ export default function CandidatureDetails() {
                                     <span className="text-gray-700">CV</span>
                                 </div>
                                 <a
-                                    href={formatUrl(candidature.cv_url)}
+                                    href={candidature.cv_url}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
@@ -150,7 +174,7 @@ export default function CandidatureDetails() {
                                     <span className="text-gray-700">Lettre de motivation</span>
                                 </div>
                                 <a
-                                    href={formatUrl(candidature.lettre_motivation_url)}
+                                    href={candidature.lettre_motivation_url}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
@@ -165,29 +189,27 @@ export default function CandidatureDetails() {
                     </div>
 
                     {/* Actions */}
-                    {candidature.status === 'en_attente' && (
-                        <div className="mt-6 flex justify-end">
+                    {candidature.statut === 'en_attente' && (
+                        <div className="mt-6 flex justify-end space-x-4">
                             <button
-                                onClick={handleWithdraw}
-                                disabled={withdrawing}
-                                className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 ${withdrawing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                onClick={handleRefuse}
+                                disabled={processingAction}
+                                className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 ${processingAction ? 'opacity-50 cursor-not-allowed' : ''}`}
                             >
-                                {withdrawing ? (
-                                    <>
-                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                        Retrait en cours...
-                                    </>
-                                ) : (
-                                    <>
-                                        <svg className="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                        Retirer ma candidature
-                                    </>
-                                )}
+                                <svg className="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                Refuser
+                            </button>
+                            <button
+                                onClick={handleAccept}
+                                disabled={processingAction}
+                                className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${processingAction ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                                <svg className="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
+                                Accepter
                             </button>
                         </div>
                     )}

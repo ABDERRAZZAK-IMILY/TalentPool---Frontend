@@ -9,7 +9,7 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
-        role: 'candidat'
+        role: ''
     });
     const [errors, setErrors] = useState({});
 
@@ -142,7 +142,7 @@ export default function Register() {
                             value={formData.role}
                         >
                             <option value="candidat">Candidat</option>
-                            <option value="recruiter">Recruiter</option>
+                            <option value="recruteur">Recruiter</option>
                         </select>
                         {errors.role && <p className="text-red-500 text-sm mt-1">{errors.role}</p>}
                     </div>

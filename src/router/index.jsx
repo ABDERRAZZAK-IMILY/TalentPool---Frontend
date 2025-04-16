@@ -10,6 +10,14 @@ import MesAnnonces from '../pages/Recruiter_manager/Annonces.jsx';
 import CandidatLayout from '../layouts/CandidatLayout.jsx';
 
 import DeleteAnnonce from '../pages/Recruiter_manager/DeleteAnnonce.jsx';
+import DashboardCandidat from '../pages/Candidat_manger/DashboardCandiat.jsx';
+import MesCandidatures from '../pages/Candidat_manger/MesCandidatures.jsx';
+import PostulerAnnonce from '../pages/Candidat_manger/PostulerAnnonce.jsx';
+import Offer from '../pages/Candidat_manger/Offer.jsx';
+
+import CandidatureDetails from '../pages/Recruiter_manager/CandidatureDetails.jsx';
+import Candidatures from '../pages/Recruiter_manager/Candidatures.jsx';
+
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +73,16 @@ export const router = createBrowserRouter([
     {
       path: "/reciter/annonces/:id/delete",
       element: <DeleteAnnonce/>
+    },
+    {
+      path: "/reciter/candidatures",
+      element: <Candidatures/>
+    },
+    {
+     path : "/recruiter/candidatures/:candidatureId",
+      element : <CandidatureDetails/>
+
+
     }
   ]
  }
@@ -76,8 +94,26 @@ element : <CandidatLayout />,
 
 children :  [
 
- 
+    {
+  path : "/candidat/dashboard",
+  element : <DashboardCandidat/>
+    } ,
 
+    {
+  path : "/candidat/annonces",
+  element : <Offer/>
+    }
+,
+    {
+      path: "/candidat/postuler/:annonceId",
+
+   element : <PostulerAnnonce/>
+    }
+,
+    {
+  path : "/candidat/mes-candidatures",
+  element : <MesCandidatures/>
+    }
 
 ]
 
