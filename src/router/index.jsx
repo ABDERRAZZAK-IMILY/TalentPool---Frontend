@@ -22,6 +22,21 @@ import Candidatures from '../pages/Recruiter_manager/Candidatures.jsx';
 import UpdateAnnonce from '../pages/Recruiter_manager/UpdateAnnonce.jsx';
 
 import CandidatureDetail from '../pages/Candidat_manger/CandidatureDetails.jsx';
+
+
+import AdminLayout from '../layouts/AdminLayout.jsx';
+
+import DashboardAdmin from '../pages/Admin_manager/DashboardAdmin.jsx';
+
+
+import AnnonceStatistics from '../pages/Admin_manager/AnnonceStatistics.jsx';
+ 
+import UserManagement from '../pages/Admin_manager/UserManagement.jsx';
+
+
+
+
+
 export const router = createBrowserRouter([
   {
    element : <Layout />,
@@ -131,6 +146,42 @@ children :  [
     }
 
 ]
+
+
+
+
+},
+
+{
+
+  element : <AdminLayout/>,
+
+  children : [
+
+  {
+    path : '/admin/dashboard' ,
+    element : <DashboardAdmin/>
+  } ,
+
+  {
+    path : '/admin/statistics',
+    element : <AnnonceStatistics/>
+  },
+  {
+   path : '/admin/users',
+
+   element : <UserManagement/>
+
+  }
+
+
+
+
+  ]
+
+
+
+
 
 
 
