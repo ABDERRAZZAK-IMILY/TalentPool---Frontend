@@ -8,8 +8,6 @@ export default function DashboardRecuiter() {
         totalCandidatures: 0,
         recentCandidatures: []
     });
-    
-
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

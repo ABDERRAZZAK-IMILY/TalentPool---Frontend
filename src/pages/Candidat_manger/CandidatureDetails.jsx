@@ -33,16 +33,7 @@ export default function CandidatureDetails() {
         }
     };
 
-    // Helper function to ensure URLs are properly formatted
-    const formatUrl = (url) => {
-        if (!url) return '#';
-        if (url.startsWith('http://') || url.startsWith('https://')) {
-            return url;
-        }
-        // Remove leading slash if present to avoid double slashes
-        const cleanUrl = url.startsWith('/') ? url.substring(1) : url;
-        return `http://localhost:80/${cleanUrl}`;
-    };
+
 
     const fetchCandidatureDetails = async () => {
         try {

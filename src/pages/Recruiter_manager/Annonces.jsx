@@ -47,6 +47,32 @@ export default function MesAnnonces() {
         );
     }
 
+
+    const hundelremove = async (annonceId) => {
+        if (!window.confirm('Êtes-vous sûr de vouloir supprimer cette annonce?')) {
+            return;
+        }
+        
+        try {
+            await axiosClient.delete(`/annonces/${annonceId}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
+                }
+            });
+    
+            setAnnonces(annonces.filter(annonce => annonce.id !== annonceId));
+            alert("Annonce supprimée avec succès!");
+        } catch (err) {
+            console.error('Error deleting annonce:', err);
+            alert("Erreur lors de la suppression de l'annonce");
+        }
+    }
+    
+
+   
+
+
+
     return (
         <div className="max-w-2xl mx-auto p-6">
             <div className="flex justify-between items-center mb-6">
@@ -70,18 +96,16 @@ export default function MesAnnonces() {
                             <h2 className="text-xl font-semibold text-gray-800 mb-2">{annonce.titre}</h2>
                             <p className="text-gray-600 mb-4">{annonce.description}</p>
                             <div className="flex justify-end space-x-4">
-                                <Link
-                                    to={`/reciter/annonces/${annonce.id}/edit`}
-                                    className="text-blue-600 hover:text-blue-800"
-                                >
+                               <button >
                                     Modifier
-                                </Link>
-                                <Link
-                                    to={`/reciter/annonces/${annonce.id}/delete`}
-                                    className="text-red-600 hover:text-red-800"
-                                >
-                                    Supprimer
-                                </Link>
+                                </button>
+
+                                <button 
+    onClick={() => hundelremove(annonce.id)}
+    className="text-red-600 hover:text-red-800 font-medium"
+>
+    Supprimer
+</button>
                             </div>
                         </div>
                     ))}

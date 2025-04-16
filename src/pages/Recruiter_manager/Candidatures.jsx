@@ -37,16 +37,7 @@ export default function Candidatures() {
         }
     };
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('fr-FR', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
+ 
 
     const getStatusClass = (status) => {
         switch (status) {
@@ -61,18 +52,7 @@ export default function Candidatures() {
         }
     };
 
-    const getStatusText = (status) => {
-        switch (status) {
-            case 'en_attente':
-                return 'En attente';
-            case 'acceptée':
-                return 'Acceptée';
-            case 'refusée':
-                return 'Refusée';
-            default:
-                return status;
-        }
-    };
+
 
     const filteredCandidatures = candidatures.filter(candidature => {
         if (filter !== 'all' && candidature.statut !== filter) {
@@ -183,11 +163,11 @@ export default function Candidatures() {
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(candidature.statut)}`}>
-                                            {getStatusText(candidature.statut)}
+                                            {(candidature.statut)}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {formatDate(candidature.created_at)}
+                                        {(candidature.created_at)}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <Link 

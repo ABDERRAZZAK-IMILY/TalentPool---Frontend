@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { axiosClient } from "../api/axios.js";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -37,7 +35,6 @@ export default function ForgotPassword() {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <ToastContainer position="top-right" autoClose={5000} />
             <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
                 <div className="text-center">
                     <h1 className="text-2xl font-bold text-gray-900">Mot de passe oublié</h1>

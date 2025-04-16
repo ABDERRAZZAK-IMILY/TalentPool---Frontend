@@ -36,17 +36,6 @@ export default function MesCandidatures() {
         fetchCandidatures();
     }, []);
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('fr-FR', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
-
     const getStatusClass = (status) => {
         switch (status) {
             case 'en_attente':
@@ -57,19 +46,6 @@ export default function MesCandidatures() {
                 return 'bg-red-100 text-red-800';
             default:
                 return 'bg-gray-100 text-gray-800';
-        }
-    };
-
-    const getStatusText = (status) => {
-        switch (status) {
-            case 'en_attente':
-                return 'En attente';
-            case 'acceptée':
-                return 'Acceptée';
-            case 'refusée':
-                return 'Refusée';
-            default:
-                return status;
         }
     };
 
@@ -111,11 +87,11 @@ export default function MesCandidatures() {
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(candidature.statut)}`}>
-                                            {getStatusText(candidature.statut)}
+                                            {(candidature.statut)}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {formatDate(candidature.created_at)}
+                                        {(candidature.created_at)}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <div className="flex space-x-2">

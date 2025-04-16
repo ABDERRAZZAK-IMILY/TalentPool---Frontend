@@ -8,8 +8,10 @@ import DashboardRecuiter from '../pages/Recruiter_manager/DashboardRecuiter.jsx'
 import CreateAnnonce  from '../pages/Recruiter_manager/CreateAnnonce.jsx';
 import MesAnnonces from '../pages/Recruiter_manager/Annonces.jsx';
 import CandidatLayout from '../layouts/CandidatLayout.jsx';
+import ForgotPassword from '../pages/ForgotPassword.jsx';
+import ResetPassword from '../pages/ResetPassword.jsx';
 
-import DeleteAnnonce from '../pages/Recruiter_manager/DeleteAnnonce.jsx';
+
 import DashboardCandidat from '../pages/Candidat_manger/DashboardCandiat.jsx';
 import MesCandidatures from '../pages/Candidat_manger/MesCandidatures.jsx';
 import PostulerAnnonce from '../pages/Candidat_manger/PostulerAnnonce.jsx';
@@ -39,6 +41,14 @@ export const router = createBrowserRouter([
    path: "/register",
    element : <Register />
 
+    },
+    {
+      path: "/forgot-password",
+      element: <ForgotPassword />
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPassword />
     }
    ]
   }
@@ -69,10 +79,6 @@ export const router = createBrowserRouter([
       element: <MesAnnonces/>
 
 
-    },
-    {
-      path: "/reciter/annonces/:id/delete",
-      element: <DeleteAnnonce/>
     },
     {
       path: "/reciter/candidatures",
