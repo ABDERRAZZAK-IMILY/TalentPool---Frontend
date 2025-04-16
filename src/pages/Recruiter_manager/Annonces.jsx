@@ -96,9 +96,12 @@ export default function MesAnnonces() {
                             <h2 className="text-xl font-semibold text-gray-800 mb-2">{annonce.titre}</h2>
                             <p className="text-gray-600 mb-4">{annonce.description}</p>
                             <div className="flex justify-end space-x-4">
-                               <button >
-                                    Modifier
-                                </button>
+                               <Link 
+    to={`/reciter/annonces/edit/${annonce.id}`}
+    className="text-blue-600 hover:text-blue-800 font-medium"
+>
+    Modifier
+</Link>
 
                                 <button 
     onClick={() => hundelremove(annonce.id)}

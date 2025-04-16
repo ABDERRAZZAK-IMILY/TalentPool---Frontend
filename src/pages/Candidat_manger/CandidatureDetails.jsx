@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { axiosClient } from '../../api/axios.js';
 
-export default function CandidatureDetails() {
+export default function CandidatureDetail() {
     const { candidatureId } = useParams();
     const navigate = useNavigate();
     const [candidature, setCandidature] = useState(null);
@@ -54,8 +54,8 @@ export default function CandidatureDetails() {
     const getStatusBadge = (status) => {
         const statusConfig = {
             en_attente: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'En attente' },
-            acceptee: { bg: 'bg-green-100', text: 'text-green-800', label: 'Acceptée' },
-            refusee: { bg: 'bg-red-100', text: 'text-red-800', label: 'Refusée' }
+            acceptée: { bg: 'bg-green-100', text: 'text-green-800', label: 'Acceptée' },
+            refusée: { bg: 'bg-red-100', text: 'text-red-800', label: 'Refusée' }
         };
 
         const config = statusConfig[status] || { bg: 'bg-gray-100', text: 'text-gray-800', label: status };
@@ -92,8 +92,8 @@ export default function CandidatureDetails() {
                     <div>
                         <h2 className="text-xl font-semibold text-gray-800 mb-4">Offre d'emploi</h2>
                         <div className="bg-gray-50 p-4 rounded-lg">
-                            <h3 className="text-lg font-medium text-gray-900">{candidature.annonce.titre}</h3>
-                            <p className="text-gray-600 mt-2">{candidature.annonce.description}</p>
+                            <h3 className="text-lg font-medium text-gray-900">sql</h3>
+                            <p className="text-gray-600 mt-2">pop</p>
                         </div>
                     </div>
 
@@ -102,7 +102,7 @@ export default function CandidatureDetails() {
                         <h2 className="text-xl font-semibold text-gray-800 mb-4">Statut de la candidature</h2>
                         <div className="flex items-center space-x-4">
                             <span className="text-gray-600">État actuel:</span>
-                            {getStatusBadge(candidature.status)}
+                            {getStatusBadge(candidature.statut)}
                         </div>
                         <p className="text-gray-600 mt-2">
                             Candidature soumise le {new Date(candidature.created_at).toLocaleDateString()}
@@ -121,7 +121,7 @@ export default function CandidatureDetails() {
                                     <span className="text-gray-700">CV</span>
                                 </div>
                                 <a
-                                    href={formatUrl(candidature.cv_url)}
+                                    href={(candidature.cv_url)}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
@@ -141,7 +141,7 @@ export default function CandidatureDetails() {
                                     <span className="text-gray-700">Lettre de motivation</span>
                                 </div>
                                 <a
-                                    href={formatUrl(candidature.lettre_motivation_url)}
+                                    href={(candidature.lettre_motivation_url)}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"

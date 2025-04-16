@@ -19,8 +19,9 @@ import Offer from '../pages/Candidat_manger/Offer.jsx';
 
 import CandidatureDetails from '../pages/Recruiter_manager/CandidatureDetails.jsx';
 import Candidatures from '../pages/Recruiter_manager/Candidatures.jsx';
+import UpdateAnnonce from '../pages/Recruiter_manager/UpdateAnnonce.jsx';
 
-
+import CandidatureDetail from '../pages/Candidat_manger/CandidatureDetails.jsx';
 export const router = createBrowserRouter([
   {
    element : <Layout />,
@@ -89,6 +90,10 @@ export const router = createBrowserRouter([
       element : <CandidatureDetails/>
 
 
+    },
+    {
+      path: "/reciter/annonces/edit/:id",
+      element: <UpdateAnnonce/>
     }
   ]
  }
@@ -119,6 +124,10 @@ children :  [
     {
   path : "/candidat/mes-candidatures",
   element : <MesCandidatures/>
+    },
+    {
+  path : "/candidat/candidatures/:candidatureId",
+  element : <CandidatureDetail/>
     }
 
 ]
